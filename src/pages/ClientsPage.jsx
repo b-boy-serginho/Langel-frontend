@@ -34,12 +34,14 @@ const ClientsPage = () => {
       {/* Botón para abrir el modal de crear cliente */}
       <br />
       <br />
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
-      >
-        Crear Cliente
-      </button>
+      <div className='flex justify-end'>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-blue-600 "
+        >
+          Crear Cliente
+        </button>
+      </div>
 
       {/* Lista de clientes */}
       <br />

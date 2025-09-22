@@ -13,10 +13,11 @@ const useDetails = () => {
 
   const fetchDetails = async () => {
     try {
-      const detailsData = await getDetails();
-      setDetails(detailsData);
-    } catch (error) {
-      console.error('Error fetching details:', error);
+      setLoading(true);
+      const data = await getDetails();
+      setDetails(Array.isArray(data?.data) ? data.data : data); // soporta paginate o array
+    } catch (e) {
+      console.error('Error fetching details:', e);
     } finally {
       setLoading(false);
     }

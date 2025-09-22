@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getReceipts, createReceipt, updateReceipt, deleteReceipt } from '../api/receiptApi';
 
+
 const useReceipts = () => {
   const [receipts, setReceipts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,7 @@ const useReceipts = () => {
       setLoading(false);
     }
   };
+
 
   const handleCreate = async (receiptData) => {
     await createReceipt(receiptData);

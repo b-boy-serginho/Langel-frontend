@@ -1,6 +1,5 @@
 // src/components/DetailForm.jsx
 
-import React, { useState, useEffect } from 'react';
 
 const DetailForm = ({ onSubmit, initialData, onCancel }) => {
   const [formData, setFormData] = useState({
