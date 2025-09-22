@@ -1,20 +1,16 @@
-// src/components/ProductList.jsx
-
 import ProductItem from './ProductItem';
 
 const ProductList = ({ products, onEdit, onDelete }) => {
   return (
-    <div className="overflow-x-auto mt-4 bg-white rounded-lg shadow-md p-6">
-      <ul>
-        {products.map((product) => (
-          <ProductItem
-            key={product.id}
-            product={product}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
-      </ul>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+      {products.map((product) => (
+        <ProductItem
+          key={product.id}
+          product={product}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      ))}
     </div>
   );
 };

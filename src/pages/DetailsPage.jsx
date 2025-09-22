@@ -1,4 +1,5 @@
 // src/pages/DetailsPage.jsx
+import React, { useState } from 'react'; // Importa useState desde React
 
 import DetailList from '../components/detail/DetailList';
 import useDetails from '../hooks/useDetails';

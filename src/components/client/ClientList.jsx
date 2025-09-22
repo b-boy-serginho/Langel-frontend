@@ -1,23 +1,18 @@
-// src/components/client/ClientList.jsx
-
 import ClientItem from './ClientItem';
 
 const ClientList = ({ clients, onEdit, onDelete }) => {
   return (
-    <div className="overflow-x-auto mt-4 bg-white rounded-lg shadow-md p-6">
-      <ul>
-        {clients.map((client) => (
-          <ClientItem
-            key={client.id}
-            client={client}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
-      </ul>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+      {clients.map((client) => (
+        <ClientItem
+          key={client.id}
+          client={client}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      ))}
     </div>
   );
 };
 
 export default ClientList;
-
