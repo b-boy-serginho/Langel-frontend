@@ -15,7 +15,7 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
             onSubmit({
               name: e.target.name.value,
               price: e.target.price.value,
-              description: e.target.description.value,
+              // description: e.target.description.value,
             });
             onClose(); // Cerrar el modal después de enviar el formulario
           }}
@@ -37,14 +37,14 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
-          <input
+          {/* <input
             type="text"
             name="description"
             defaultValue={initialData?.description || ''}
             placeholder="Ingresa una descripción"
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
+            
+          /> */}
           
           <div className="flex justify-between items-center mt-4">
             <button type="submit" className="bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-blue-600">

@@ -1,13 +1,12 @@
 // src/api/receiptApi.js
 
-import axios from 'axios';
-
-const apiUrl = 'http://127.0.0.1:8000/api/receipts/';
+import { apiClient } from './axiosApi';
+const basePath = '/receipts';
 
 export const getReceipts = async () => {
   try {
-    const response = await axios.get(apiUrl);
-    return response.data;
+    const { data } = await apiClient.get(basePath);
+    return data;
   } catch (error) {
     console.error('Error fetching receipts:', error);
     throw error;
@@ -16,7 +15,8 @@ export const getReceipts = async () => {
 
 export const createReceipt = async (receiptData) => {
   try {
-    await axios.post(apiUrl, receiptData);
+    const { data } = await apiClient.post(basePath, receiptData);
+    return data;
   } catch (error) {
     console.error('Error creating receipt:', error);
     throw error;
@@ -25,7 +25,7 @@ export const createReceipt = async (receiptData) => {
 
 export const updateReceipt = async (id, receiptData) => {
   try {
-    await axios.put(`${apiUrl}${id}`, receiptData);
+    await apiClient.put(`${basePath}/${id}`, receiptData);
   } catch (error) {
     console.error('Error updating receipt:', error);
     throw error;
@@ -34,9 +34,20 @@ export const updateReceipt = async (id, receiptData) => {
 
 export const deleteReceipt = async (id) => {
   try {
-    await axios.delete(`${apiUrl}${id}`);
+    await apiClient.delete(`${basePath}/${id}`);
   } catch (error) {
     console.error('Error deleting receipt:', error);
+    throw error;
+  }
+};
+
+// Nueva función para obtener los recibos de un cliente específico
+export const getReceiptsByClient = async (clientId) => {
+  try {
+    const { data } = await apiClient.get(`/receipts/client/${clientId}`);
+    return data;
+  } catch (error) {
+    console.error('Error fetching receipts for client:', error);
     throw error;
   }
 };

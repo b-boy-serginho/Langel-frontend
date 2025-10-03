@@ -1,16 +1,20 @@
-// src/pages/ReceiptsPage.jsx
+// src/pages/ReceiptsPageId.jsx
 
 import React, { useState } from 'react';
-// import ReceiptForm from '../components/receipt/ReceiptForm';
-import ReceiptList from '../components/receipt/ReceiptList';
-import useReceipts from '../hooks/useReceipts';
+import { useParams } from 'react-router-dom';
+import useReceiptsId from '../hooks/useReceiptsId';  // Cambié esto de useReceipts a useReceiptsId
+import ReceiptList from '../components/receipt/ReceiptList'; // Asegúrate de tener este componente
+import useClients from '../hooks/useClients';
 import ReceiptModal from '../components/receipt/ReceiptModal';
 import ReceiptDetailModal from '../components/receipt/ReceiptDetailModal';
 
-const ReceiptsPage = () => {
-  const { receipts, loading, handleCreate, handleUpdate, handleDelete } = useReceipts();
-  const [editingReceipt, setEditingReceipt] = useState(null);
+const ReceiptsPageId = () => {
+  const { clientId } = useParams(); // Obtén el clientId de la URL
+  const { receipts, loading, handleDelete, handleCreate, handleUpdate } = useReceiptsId(clientId);
+  const { clients } = useClients();  // Obtener los datos de los clientes
+  const client = clients.find(c => c.id === parseInt(clientId));  // Buscar al cliente por ID
   const [isModalOpen, setIsModalOpen] = useState(false);  // Abrir el modal
+  const [editingReceipt, setEditingReceipt] = useState(null);
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
@@ -25,7 +29,6 @@ const ReceiptsPage = () => {
   };
 
   const handleSubmit = async (receiptData) => {
-    // Filtra los campos que quieres enviar, solo id_client, nro y description
     const { id_client, nro, description } = receiptData;
     const updatedData = { id_client, nro, description };
 
@@ -35,7 +38,6 @@ const ReceiptsPage = () => {
       setIsModalOpen(false);
       return null;
     } else {
-      // Devolver el recibo creado al modal para continuar con los detalles
       const created = await handleCreate(updatedData);
       return created;
     }
@@ -56,11 +58,10 @@ const ReceiptsPage = () => {
     setIsDetailModalOpen(false);
   };
 
-
   return (
     <div>
-      <br />
-      <br />
+
+      {/* Botón para abrir el modal de creación */}
       <div className='flex justify-end'>
         <button
           onClick={() => setIsModalOpen(true)}
@@ -70,19 +71,31 @@ const ReceiptsPage = () => {
         </button>
       </div>
 
-      <br />
-      <br />
+      {client && <h1 className='text-3xl font-semibold'>Recibos de {client.name}</h1>}
+      {loading ? (
+        <p>Cargando...</p>
+      ) : (
+        <ReceiptList
+          receipts={receipts}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+          onAddDetail={handleAddDetail}
+          onViewDetails={handleViewDetails}
+        />
 
-      <h1 className='text-center text-3xl font-semibold' >Lista de Recibos</h1>
-      {loading ? <p>Loading...</p> : <ReceiptList receipts={receipts} onEdit={handleEdit} onDelete={handleDelete} onAddDetail={handleAddDetail} onViewDetails={handleViewDetails} />}
+      )}
 
+      {/* Modal de creación y edición */}
       <ReceiptModal
         isOpen={isModalOpen}
         onClose={handleCancelEdit}
         onSubmit={handleSubmit}
         initialData={editingReceipt}
+        fixedClientId={client?.id}
+        fixedClientName={client?.name}
       />
 
+      {/* Modal de detalles */}
       <ReceiptDetailModal
         isOpen={isDetailModalOpen}
         onClose={handleCloseDetailModal}
@@ -92,4 +105,4 @@ const ReceiptsPage = () => {
   );
 };
 
-export default ReceiptsPage;
+export default ReceiptsPageId;

@@ -1,14 +1,12 @@
 // src/api/detailApi.js
 
-import axios from 'axios';
 import { apiClient } from './axiosApi';
-
-const apiUrl = 'http://localhost:8000/api/details';
+const basePath = '/details';
 
 export const getDetails = async () => {
   try {
-    const response = await axios.get(apiUrl);
-    return response.data;
+    const { data } = await apiClient.get(basePath);
+    return data;
   } catch (error) {
     console.error('Error fetching details:', error);
     throw error;
@@ -26,6 +24,7 @@ export const createDetail = async (detailData) => {
       : {}),
   };
   await apiClient.post('/details', payload);
+  // return created detail if needed
 };
 
 export const updateDetail = async (id, detailData) => {
@@ -37,7 +36,7 @@ export const updateDetail = async (id, detailData) => {
       ? { unit_price: Number(detailData.unit_price) }
       : {}),
   };
-  await apiClient.put(`/details/${id}`, payload);
+  await apiClient.put(`${basePath}/${id}`, payload);
 };
 
 
@@ -61,7 +60,7 @@ export const updateDetail = async (id, detailData) => {
 
 export const deleteDetail = async (id) => {
   try {
-    await axios.delete(`${apiUrl}/${id}`);
+    await apiClient.delete(`${basePath}/${id}`);
   } catch (error) {
     console.error('Error deleting detail:', error);
     throw error;

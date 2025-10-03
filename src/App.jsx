@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import ClientsPage from './pages/ClientsPage';
 import ProductsPage from './pages/ProductsPage';
 import ReceiptsPage from './pages/ReceiptsPage';
+import ReceiptsPageId from './pages/ReceiptsPageId';
 import DetailsPage from './pages/DetailsPage';
 import HomePage from './pages/HomePage';
 
@@ -26,7 +27,10 @@ const App = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/clients" element={<ClientsPage />} />
               <Route path="/products" element={<ProductsPage />} />
-              <Route path="/receipts" element={<ReceiptsPage />} />
+
+              {/* Ruta dinámica para mostrar los recibos de un cliente específico */}
+              <Route path="/receipts/:clientId" element={<ReceiptsPageId />} />
+              <Route path="/receipts/" element={<ReceiptsPage />} />
               <Route path="/details" element={<DetailsPage />} />
             </Routes>
           </div>

@@ -25,8 +25,9 @@ const useReceipts = () => {
 
 
   const handleCreate = async (receiptData) => {
-    await createReceipt(receiptData);
-    fetchReceipts();
+    const created = await createReceipt(receiptData);
+    await fetchReceipts();
+    return created;
   };
 
   const handleUpdate = async (id, receiptData) => {

@@ -14,8 +14,8 @@ const ClientModal = ({ isOpen, onClose, onSubmit, initialData }) => {
             e.preventDefault();
             onSubmit({
               name: e.target.name.value,
-              email: e.target.email.value,
-              phone: e.target.phone.value,
+              // email: e.target.email.value,
+              // phone: e.target.phone.value,
             });
             onClose(); // Cerrar el modal después de enviar el formulario
           }}
@@ -29,22 +29,20 @@ const ClientModal = ({ isOpen, onClose, onSubmit, initialData }) => {
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
-          <input
+          {/* <input
             type="email"
             name="email"
             defaultValue={initialData?.email || ''}
             placeholder="Correo Electrónico"
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-          <input
+          /> */}
+          {/* <input
             type="text"
             name="phone"
             defaultValue={initialData?.phone || ''}
             placeholder="Teléfono"
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
+          /> */}
           
           <div className="flex justify-between items-center mt-4">
             <button type="submit" className="bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
