@@ -114,7 +114,8 @@ const ReceiptModal = ({ isOpen, onClose, onSubmit, initialData, fixedClientId, f
     };
 
     const handleQuantityChange = (e) => {
-        const q = Number(e.target.value);
+        // const q = Number(e.target.value);
+        const q = parseFloat(e.target.value); // Usar parseFloat en lugar de Number para manejar decimales
         setQuantity(q);
         setAmount(q * Number(unitPrice || 0));
     };
@@ -232,7 +233,8 @@ const ReceiptModal = ({ isOpen, onClose, onSubmit, initialData, fixedClientId, f
                                         <input
                                             type="number"
                                             min="1"
-                                            step="1"
+                                            // step="1"
+                                            step="any"  // Permite números decimales
                                             value={quantity}
                                             onChange={handleQuantityChange}
                                             placeholder="Cantidad"

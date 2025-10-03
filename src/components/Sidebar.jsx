@@ -29,12 +29,12 @@ const Sidebar = () => {
           <li className="mb-4">
             <Link to="/clients" className="hover:bg-gray-700 p-2 rounded block">Clientes</Link>
           </li>
-          <li className="mb-4">
+          {/* <li className="mb-4">
             <Link to="/receipts" className="hover:bg-gray-700 p-2 rounded block">Recibos</Link>
           </li>
           <li className="mb-4">
             <Link to="/details" className="hover:bg-gray-700 p-2 rounded block">Detalles</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

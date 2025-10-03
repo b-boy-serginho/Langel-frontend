@@ -65,7 +65,9 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
   };
 
   const handleQuantityChange = (e) => {
-    const newQuantity = Number(e.target.value);
+    // const newQuantity = Number(e.target.value);
+    const newQuantity = parseFloat(e.target.value); // Usar parseFloat en lugar de Number para manejar decimales
+
     setQuantity(newQuantity);
     setAmount(newQuantity * Number(unitPrice || 0));
   };
@@ -107,7 +109,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
   if (!isOpen || !receipt) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-gray bg-opacity-30 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto relative z-50">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">
@@ -179,7 +181,8 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
                   <input
                     type="number"
                     min="1"
-                    step="1"
+                    // step="1"
+                    step="any"  // Permite números decimales
                     value={quantity}
                     onChange={handleQuantityChange}
                     placeholder="Cantidad"

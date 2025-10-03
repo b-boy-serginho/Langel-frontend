@@ -66,7 +66,8 @@ const DetailModal = ({ isOpen, onClose, onSubmit, initialData }) => {
   };
 
   const handleQuantityChange = (e) => {
-    const newQuantity = Number(e.target.value);
+    // const newQuantity = Number(e.target.value);
+    const newQuantity = parseFloat(e.target.value); // Usar parseFloat en lugar de Number para manejar decimales
     setQuantity(newQuantity);
     setAmount(newQuantity * Number(unitPrice || 0));
   };
@@ -130,7 +131,8 @@ const DetailModal = ({ isOpen, onClose, onSubmit, initialData }) => {
           <input
             type="number"
             min="1"
-            step="1"
+            // step="1"
+            step="any"  // Permite números decimales
             name="quantity"
             value={quantity}
             onChange={handleQuantityChange}
