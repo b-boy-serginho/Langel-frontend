@@ -2,63 +2,44 @@
 
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import useReceiptsId from '../hooks/useReceiptsId';
-import ReceiptList from '../components/receipt/ReceiptList';
+import useReceiptsId from '../hooks/useReceiptsId';  // Cambié esto de useReceipts a useReceiptsId
+import ReceiptList from '../components/receipt/ReceiptList'; // Asegúrate de tener este componente
 import useClients from '../hooks/useClients';
 import ReceiptModal from '../components/receipt/ReceiptModal';
 import ReceiptDetailModal from '../components/receipt/ReceiptDetailModal';
 
 const ReceiptsPageId = () => {
-  const { clientId } = useParams();
+  const { clientId } = useParams(); // Obtén el clientId de la URL
   const { receipts, loading, handleDelete, handleCreate, handleUpdate } = useReceiptsId(clientId);
-  const { clients } = useClients();
-  const client = clients.find(c => c.id === parseInt(clientId, 10));
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { clients } = useClients();  // Obtener los datos de los clientes
+  const client = clients.find(c => c.id === parseInt(clientId));  // Buscar al cliente por ID
+  const [isModalOpen, setIsModalOpen] = useState(false);  // Abrir el modal
   const [editingReceipt, setEditingReceipt] = useState(null);
-
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   const handleEdit = (receipt) => {
     setEditingReceipt(receipt);
-    setIsModalOpen(true);
+    setIsModalOpen(true); // Abrir el modal para editar
   };
 
   const handleCancelEdit = () => {
     setEditingReceipt(null);
-    setIsModalOpen(false);
-  };
-
-  // Normaliza la respuesta del create por si tu API envuelve el dato en data/data.data
-  const normalizeCreated = (created) => {
-    if (!created) return null;
-    if (created.id) return created;
-    if (created?.data?.id) return created.data;
-    if (created?.data?.data?.id) return created.data.data;
-    return created;
+    setIsModalOpen(false); // Cerrar el modal cuando se cancela
   };
 
   const handleSubmit = async (receiptData) => {
     const { id_client, nro, description } = receiptData;
-    const payload = { id_client, nro, description };
+    const updatedData = { id_client, nro, description };
 
-    try {
-      if (editingReceipt) {
-        await handleUpdate(editingReceipt.id, payload);
-        setEditingReceipt(null);
-        setIsModalOpen(false); // en edición sí cerramos
-        return null;
-      } else {
-        // 👉 NO cerramos el modal ni abrimos otro.
-        // Devolvemos el "created" y dejamos que ReceiptModal muestre el Paso 2.
-        const createdRaw = await handleCreate(payload);
-        const created = normalizeCreated(createdRaw);
-        return created;
-      }
-    } catch (error) {
-      console.error('Error al crear/actualizar recibo:', error);
+    if (editingReceipt) {
+      await handleUpdate(editingReceipt.id, updatedData);
+      setEditingReceipt(null);
+      setIsModalOpen(false);
       return null;
+    } else {
+      const created = await handleCreate(updatedData);
+      return created;
     }
   };
 
@@ -79,6 +60,7 @@ const ReceiptsPageId = () => {
 
   return (
     <div>
+
       {/* Botón para abrir el modal de creación */}
       <div className='flex justify-end'>
         <button
@@ -90,7 +72,6 @@ const ReceiptsPageId = () => {
       </div>
 
       {client && <h1 className='text-3xl font-semibold'>Recibos de {client.name}</h1>}
-
       {loading ? (
         <p>Cargando...</p>
       ) : (
@@ -101,9 +82,10 @@ const ReceiptsPageId = () => {
           onAddDetail={handleAddDetail}
           onViewDetails={handleViewDetails}
         />
+
       )}
 
-      {/* Modal de creación/edición (con Paso 2 interno) */}
+      {/* Modal de creación y edición */}
       <ReceiptModal
         isOpen={isModalOpen}
         onClose={handleCancelEdit}
@@ -113,7 +95,7 @@ const ReceiptsPageId = () => {
         fixedClientName={client?.name}
       />
 
-      {/* Modal separado de detalles (para ver/agregar desde la lista si quisieras) */}
+      {/* Modal de detalles */}
       <ReceiptDetailModal
         isOpen={isDetailModalOpen}
         onClose={handleCloseDetailModal}
