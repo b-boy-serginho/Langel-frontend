@@ -1,3 +1,5 @@
+// src/components/receipt/ReceiptDetailModal.jsx
+
 import React, { useState, useEffect } from 'react';
 import { apiClient } from '../../api/axiosApi';
 import { createDetail, deleteDetail } from '../../api/detailApi';
@@ -8,7 +10,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(false);
-  
+
   // Form data
   const [selectedProduct, setSelectedProduct] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -38,8 +40,8 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
       setLoading(true);
       const { data } = await apiClient.get('/details');
       const allDetails = Array.isArray(data?.data) ? data.data : data;
-      // Filtrar detalles por el recibo actual
-      const receiptDetails = allDetails.filter(detail => detail.id_receipt === receipt.id);
+      // Filtrar detalles por el recibo actual (normalizando Number)
+      const receiptDetails = allDetails.filter(detail => Number(detail.id_receipt) === Number(receipt.id));
       setDetails(receiptDetails);
     } catch (e) {
       console.error('Error fetching details:', e);
@@ -65,9 +67,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
   };
 
   const handleQuantityChange = (e) => {
-    // const newQuantity = Number(e.target.value);
-    const newQuantity = parseFloat(e.target.value); // Usar parseFloat en lugar de Number para manejar decimales
-
+    const newQuantity = parseFloat(e.target.value); // permite decimales
     setQuantity(newQuantity);
     setAmount(newQuantity * Number(unitPrice || 0));
   };
@@ -81,15 +81,15 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
         quantity: Number(quantity),
         unit_price: unitPrice !== '' ? Number(unitPrice) : undefined,
       };
-      
+
       await createDetail(payload);
-      
+
       // Reset form
       setSelectedProduct('');
       setQuantity('');
       setUnitPrice('');
       setAmount('');
-      
+
       // Refresh details
       fetchDetails();
     } catch (error) {
@@ -113,7 +113,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto relative z-50">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">
-            Detalles del Recibo #{receipt.nro} - {receipt.client?.name}
+            Detalles del Recibo #{receipt.nro ?? receipt.id} - {receipt.client?.name}
           </h2>
           <button
             onClick={onClose}
@@ -180,9 +180,8 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
                   </label>
                   <input
                     type="number"
-                    min="1"
-                    // step="1"
-                    step="any"  // Permite números decimales
+                    min="0"
+                    step="any"
                     value={quantity}
                     onChange={handleQuantityChange}
                     placeholder="Cantidad"

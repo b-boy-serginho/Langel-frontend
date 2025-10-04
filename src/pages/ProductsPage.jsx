@@ -1,5 +1,3 @@
-// src/pages/ProductsPage.jsx
-
 import React, { useState } from 'react';
 import { HiPlus, HiShoppingBag, HiSearch, HiFilter } from 'react-icons/hi';
 import ProductList from '../components/product/ProductList';
@@ -11,6 +9,7 @@ const ProductsPage = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [message, setMessage] = useState(''); // Estado para manejar los mensajes
 
   const handleEdit = (product) => {
     setEditingProduct(product);
@@ -24,12 +23,39 @@ const ProductsPage = () => {
 
   const handleSubmit = (productData) => {
     if (editingProduct) {
-      handleUpdate(editingProduct.id, productData);
-      setEditingProduct(null);
+      handleUpdate(editingProduct.id, productData).then(() => {
+        setMessage('Producto actualizado exitosamente'); // Mensaje de éxito
+        setTimeout(() => setMessage(''), 5000); // Elimina el mensaje después de 5 segundos
+      }).catch((error) => {
+        setMessage('Error al actualizar el producto'); // Mensaje de error
+        setTimeout(() => setMessage(''), 5000); // Elimina el mensaje después de 5 segundos
+      });
     } else {
-      handleCreate(productData);
+      handleCreate(productData).then(() => {
+        setMessage('Producto creado exitosamente'); // Mensaje de éxito
+        setTimeout(() => setMessage(''), 5000); // Elimina el mensaje después de 5 segundos
+      }).catch((error) => {
+        setMessage('Error al crear el producto'); // Mensaje de error
+        setTimeout(() => setMessage(''), 5000); // Elimina el mensaje después de 5 segundos
+      });
     }
     setIsModalOpen(false);
+  };
+
+  const handleDeleteProduct = (id) => {
+    const isConfirmed = window.confirm("¿Estás seguro de que quieres eliminar este producto?");
+    if (isConfirmed) {
+      handleDelete(id).then(() => {
+        setMessage('Producto eliminado exitosamente'); // Mensaje de éxito
+        setTimeout(() => setMessage(''), 5000); // Elimina el mensaje después de 5 segundos
+      }).catch((error) => {
+        setMessage('Error al eliminar el producto'); // Mensaje de error
+        setTimeout(() => setMessage(''), 5000); // Elimina el mensaje después de 5 segundos
+      });
+    } else {
+      setMessage('Eliminación cancelada'); // Mensaje si el usuario cancela
+      setTimeout(() => setMessage(''), 5000); // Elimina el mensaje después de 5 segundos
+    }
   };
 
   const filteredProducts = products.filter(product =>
@@ -40,10 +66,10 @@ const ProductsPage = () => {
     <div className="p-6 space-y-6">
       {/* Header de la página */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-    <div>
+        <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
             <HiShoppingBag className="w-8 h-8 text-teal-600 mr-3" />
-            Gestión de Productos
+            Productos Agregados
           </h1>
           <p className="text-gray-600 mt-2">
             Administra tu inventario de productos de manera eficiente
@@ -57,6 +83,13 @@ const ProductsPage = () => {
           <span>Agregar Producto</span>
         </button>
       </div>
+
+      {/* Mostrar mensaje de éxito o error */}
+      {message && (
+        <div className="p-4 bg-teal-100 text-teal-800 rounded-lg shadow-md">
+          <p>{message}</p>
+        </div>
+      )}
 
       {/* Barra de búsqueda y filtros */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-xl transition-all duration-300">
@@ -80,7 +113,6 @@ const ProductsPage = () => {
         </div>
       </div>
 
-     
       {/* Lista de productos */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-xl transition-all duration-300">
         <div className="p-6 border-b border-gray-200/50">
@@ -113,17 +145,17 @@ const ProductsPage = () => {
               </div>
             </div>
           ) : (
-            <ProductList 
-              products={filteredProducts} 
-              onEdit={handleEdit} 
-              onDelete={handleDelete} 
+            <ProductList
+              products={filteredProducts}
+              onEdit={handleEdit}
+              onDelete={handleDeleteProduct}  // Asegúrate de pasar la función de eliminar
             />
           )}
         </div>
       </div>
 
- {/* Estadísticas rápidas */}
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Estadísticas rápidas */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-2xl hover:shadow-gray-900/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div className="relative flex items-center">
@@ -162,6 +194,8 @@ const ProductsPage = () => {
         </div> */}
       </div>
 
+
+      {/* Modal para agregar/editar producto */}
       <ProductModal
         isOpen={isModalOpen}
         onClose={handleCancelEdit}

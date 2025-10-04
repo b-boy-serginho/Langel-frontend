@@ -1,3 +1,4 @@
+// src/components/client/ClientModal.jsx
 import React from 'react';
 import { HiX, HiUser, HiMail, HiPhone, HiIdentification } from 'react-icons/hi';
 
@@ -39,8 +40,8 @@ const ClientModal = ({ isOpen, onClose, onSubmit, initialData }) => {
             e.preventDefault();
             onSubmit({
               name: e.target.name.value,
-              email: e.target.email.value,
-              phone: e.target.phone.value,
+              // email: e.target.email.value,
+              // phone: e.target.phone.value,
             });
             onClose();
           }}

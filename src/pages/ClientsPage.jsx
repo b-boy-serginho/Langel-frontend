@@ -1,3 +1,4 @@
+// src/pages/ClientsPage.jsx
 import React, { useState } from 'react';
 import { HiPlus, HiUsers, HiSearch, HiFilter, HiUserGroup } from 'react-icons/hi';
 import ClientList from '../components/client/ClientList';
@@ -9,7 +10,8 @@ const ClientsPage = () => {
   const [editingClient, setEditingClient] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [message, setMessage] = useState(''); // Estado para manejar los mensajes
+  // Añadido para manejar mensajes
   const handleEdit = (client) => {
     setEditingClient(client);
     setIsModalOpen(true);
@@ -22,12 +24,44 @@ const ClientsPage = () => {
 
   const handleSubmit = (clientData) => {
     if (editingClient) {
-      handleUpdate(editingClient.id, clientData);
+      handleUpdate(editingClient.id, clientData).then(() => {
+        setMessage('Cliente actualizado exitosamente'); // Mensaje de éxito
+      }).catch((error) => {
+        setMessage('Error al actualizar el cliente'); // Mensaje de error
+      });
     } else {
-      handleCreate(clientData);
+      handleCreate(clientData).then(() => {
+        setMessage('Cliente creado exitosamente'); // Mensaje de éxito
+      }).catch((error) => {
+        setMessage('Error al crear el cliente'); // Mensaje de error
+      });
     }
     setIsModalOpen(false);
   };
+
+  const handleDeleteClient = (id) => {
+    const isConfirmed = window.confirm("¿Estás seguro de que quieres eliminar este cliente?");
+    if (isConfirmed) {
+      handleDelete(id).then(() => {
+        setMessage('Cliente eliminado exitosamente'); // Mensaje de éxito
+        setTimeout(() => {
+          setMessage(''); // Borra el mensaje después de 5 segundos
+        }, 5000);
+      }).catch((error) => {
+        setMessage('Error al eliminar el cliente'); // Mensaje de error
+        setTimeout(() => {
+          setMessage(''); // Borra el mensaje después de 5 segundos
+        }, 5000);
+      });
+    } else {
+      setMessage('Eliminación cancelada'); // Mensaje si el usuario cancela
+      setTimeout(() => {
+        setMessage(''); // Borra el mensaje después de 5 segundos
+      }, 5000);
+    }
+  };
+  
+  
 
   const filteredClients = clients.filter(client =>
     client.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -40,7 +74,7 @@ const ClientsPage = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
             <HiUsers className="w-8 h-8 text-teal-600 mr-3" />
-            Clientes registrados
+            Clientes Registrados
           </h1>
           <p className="text-gray-600 mt-2">
             Administra tu base de datos de clientes de manera eficiente
@@ -54,6 +88,13 @@ const ClientsPage = () => {
           <span>Agregar Cliente</span>
         </button>
       </div>
+
+      {/* Mostrar mensaje de éxito o error */}
+      {message && (
+        <div className="p-4 bg-teal-100 text-teal-800 rounded-lg shadow-md">
+          <p>{message}</p>
+        </div>
+      )}
 
       {/* Barra de búsqueda y filtros */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-xl transition-all duration-300">
@@ -112,7 +153,8 @@ const ClientsPage = () => {
             <ClientList 
               clients={filteredClients} 
               onEdit={handleEdit} 
-              onDelete={handleDelete} 
+              // onDelete={handleDelete} 
+              onDelete={handleDeleteClient}  // Asegúrate de pasar la función de eliminar
             />
           )}
         </div>
