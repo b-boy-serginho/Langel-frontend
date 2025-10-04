@@ -36,18 +36,18 @@ const Sidebar = () => {
       icon: HiUsers,
       description: 'Gestión de clientes'
     },
-    {
-      path: '/receipts',
-      label: 'Recibos',
-      icon: HiDocumentText,
-      description: 'Gestión de recibos'
-    },
-    {
-      path: '/details',
-      label: 'Detalles',
-      icon: HiViewList,
-      description: 'Detalles de recibos'
-    }
+    // {
+    //   path: '/receipts',
+    //   label: 'Recibos',
+    //   icon: HiDocumentText,
+    //   description: 'Gestión de recibos'
+    // },
+    // {
+    //   path: '/details',
+    //   label: 'Detalles',
+    //   icon: HiViewList,
+    //   description: 'Detalles de recibos'
+    // }
   ];
 
   const isActive = (path) => {
@@ -146,7 +146,7 @@ const Sidebar = () => {
             </div>
             <div className="flex-1 relative">
               <div className="text-sm font-semibold text-white drop-shadow-sm">Usuario</div>
-              <div className="text-xs text-gray-300 font-medium">Administrador</div>
+              <div className="text-xs text-gray-300 font-medium">Administrador-Luis Angel</div>
             </div>
             <div className="w-2 h-2 bg-green-400 rounded-full shadow-sm animate-pulse"></div>
           </div>

@@ -40,7 +40,7 @@ const ClientsPage = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
             <HiUsers className="w-8 h-8 text-teal-600 mr-3" />
-            Gestión de Clientes
+            Clientes registrados
           </h1>
           <p className="text-gray-600 mt-2">
             Administra tu base de datos de clientes de manera eficiente
@@ -74,46 +74,6 @@ const ClientsPage = () => {
             <HiFilter className="w-5 h-5 group-hover:rotate-180 transition-transform duration-300" />
             <span className="font-medium">Filtros</span>
           </button>
-        </div>
-      </div>
-
-      {/* Estadísticas rápidas */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-2xl hover:shadow-gray-900/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-green-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div className="relative flex items-center">
-            <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-              <HiUsers className="w-7 h-7 text-white drop-shadow-sm" />
-            </div>
-            <div className="ml-5">
-              <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Total Clientes</p>
-              <p className="text-3xl font-bold text-gray-900 group-hover:scale-110 transition-transform duration-300">{clients.length}</p>
-            </div>
-          </div>
-        </div>
-        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-2xl hover:shadow-gray-900/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div className="relative flex items-center">
-            <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-              <HiUserGroup className="w-7 h-7 text-white drop-shadow-sm" />
-            </div>
-            <div className="ml-5">
-              <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Clientes Activos</p>
-              <p className="text-3xl font-bold text-gray-900 group-hover:scale-110 transition-transform duration-300">{clients.length}</p>
-            </div>
-          </div>
-        </div>
-        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-2xl hover:shadow-gray-900/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div className="relative flex items-center">
-            <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-              <HiUsers className="w-7 h-7 text-white drop-shadow-sm" />
-            </div>
-            <div className="ml-5">
-              <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Nuevos Este Mes</p>
-              <p className="text-3xl font-bold text-gray-900 group-hover:scale-110 transition-transform duration-300">12</p>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -157,6 +117,48 @@ const ClientsPage = () => {
           )}
         </div>
       </div>
+
+      {/* Estadísticas rápidas */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-2xl hover:shadow-gray-900/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-green-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative flex items-center">
+            <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+              <HiUsers className="w-7 h-7 text-white drop-shadow-sm" />
+            </div>
+            <div className="ml-5">
+              <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Total Clientes</p>
+              <p className="text-3xl font-bold text-gray-900 group-hover:scale-110 transition-transform duration-300">{clients.length}</p>
+            </div>
+          </div>
+        </div>
+        {/* <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-2xl hover:shadow-gray-900/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative flex items-center">
+            <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+              <HiUserGroup className="w-7 h-7 text-white drop-shadow-sm" />
+            </div>
+            <div className="ml-5">
+              <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Clientes Activos</p>
+              <p className="text-3xl font-bold text-gray-900 group-hover:scale-110 transition-transform duration-300">{clients.length}</p>
+            </div>
+          </div>
+        </div> */}
+        {/* <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-2xl hover:shadow-gray-900/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative flex items-center">
+            <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+              <HiUsers className="w-7 h-7 text-white drop-shadow-sm" />
+            </div>
+            <div className="ml-5">
+              <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Nuevos Este Mes</p>
+              <p className="text-3xl font-bold text-gray-900 group-hover:scale-110 transition-transform duration-300">12</p>
+            </div>
+          </div>
+        </div> */}
+      </div>
+
+      
 
       <ClientModal
         isOpen={isModalOpen}

@@ -130,7 +130,7 @@ const HomePage = () => {
             <p className="text-teal-100 text-xl font-medium">
               Aquí tienes un resumen de tu sistema de gestión
             </p>
-            <div className="flex items-center space-x-4 mt-6">
+            {/* <div className="flex items-center space-x-4 mt-6">
               <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 <span className="text-sm font-medium">Sistema Activo</span>
@@ -138,7 +138,7 @@ const HomePage = () => {
               <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
                 <span className="text-sm font-medium">Última actualización: Hoy</span>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="hidden md:block relative">
             <div className="w-32 h-32 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -149,7 +149,7 @@ const HomePage = () => {
       </div>
 
       {/* Estadísticas principales */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
@@ -174,11 +174,11 @@ const HomePage = () => {
             </div>
           );
         })}
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Acciones rápidas */}
-        <div className="lg:col-span-1">
+        {/* <div className="lg:col-span-1">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-blue-500 rounded-xl flex items-center justify-center">
@@ -209,10 +209,10 @@ const HomePage = () => {
               })}
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Actividad reciente */}
-        <div className="lg:col-span-2">
+        {/* <div className="lg:col-span-2">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
@@ -246,11 +246,11 @@ const HomePage = () => {
               })}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Gráfico de tendencias (placeholder) */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-xl transition-all duration-300">
+      {/* <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg shadow-gray-900/5 border border-gray-200/50 hover:shadow-xl transition-all duration-300">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
@@ -279,7 +279,7 @@ const HomePage = () => {
             <p className="text-sm text-gray-500">Los datos se mostrarán aquí</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

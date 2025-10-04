@@ -66,7 +66,7 @@ const ClientModal = ({ isOpen, onClose, onSubmit, initialData }) => {
             </div>
 
             {/* Campo Email */}
-            <div className="group">
+            {/* <div className="group">
               <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 mb-3">
                 <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                   <HiMail className="w-4 h-4 text-blue-600" />
@@ -80,10 +80,10 @@ const ClientModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 placeholder="cliente@ejemplo.com"
                 className="w-full px-4 py-3.5 bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-xl text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-white/80 transition-all duration-300 shadow-sm hover:shadow-md"
               />
-            </div>
+            </div> */}
 
             {/* Campo Teléfono */}
-            <div className="group">
+            {/* <div className="group">
               <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 mb-3">
                 <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
                   <HiPhone className="w-4 h-4 text-purple-600" />
@@ -97,7 +97,7 @@ const ClientModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 placeholder="+58 412 123 4567"
                 className="w-full px-4 py-3.5 bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-xl text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 focus:bg-white/80 transition-all duration-300 shadow-sm hover:shadow-md"
               />
-            </div>
+            </div> */}
           </div>
           
           {/* Botones de acción */}
