@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { apiClient } from '../../api/axiosApi';
 import { createDetail, deleteDetail } from '../../api/detailApi';
+import { FaPlus, FaTable, FaTrash, FaTimes, FaEye } from "react-icons/fa";
 
 const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
   const [products, setProducts] = useState([]);
   const [details, setDetails] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [showTable, setShowTable] = useState(false);
-  
+  const [showForm, setShowForm] = useState(true);
+  const [showTable, setShowTable] = useState(true);
+
   // Form data
   const [selectedProduct, setSelectedProduct] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -38,7 +39,6 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
       setLoading(true);
       const { data } = await apiClient.get('/details');
       const allDetails = Array.isArray(data?.data) ? data.data : data;
-      // Filtrar detalles por el recibo actual
       const receiptDetails = allDetails.filter(detail => detail.id_receipt === receipt.id);
       setDetails(receiptDetails);
     } catch (e) {
@@ -65,9 +65,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
   };
 
   const handleQuantityChange = (e) => {
-    // const newQuantity = Number(e.target.value);
-    const newQuantity = parseFloat(e.target.value); // Usar parseFloat en lugar de Number para manejar decimales
-
+    const newQuantity = parseFloat(e.target.value);
     setQuantity(newQuantity);
     setAmount(newQuantity * Number(unitPrice || 0));
   };
@@ -81,16 +79,14 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
         quantity: Number(quantity),
         unit_price: unitPrice !== '' ? Number(unitPrice) : undefined,
       };
-      
+
       await createDetail(payload);
-      
-      // Reset form
+
       setSelectedProduct('');
       setQuantity('');
       setUnitPrice('');
       setAmount('');
-      
-      // Refresh details
+
       fetchDetails();
     } catch (error) {
       console.error('Error creating detail:', error);
@@ -117,9 +113,10 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="text-gray-500 hover:text-gray-700 text-2xl flex items-center"
+            title="Cerrar"
           >
-            ×
+            <FaTimes />
           </button>
         </div>
 
@@ -127,22 +124,25 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
         <div className="mb-4 flex space-x-2">
           <button
             onClick={() => setShowForm(!showForm)}
-            className={`px-4 py-2 rounded ${
-              showForm 
-                ? 'bg-blue-600 text-white' 
+            className={`px-4 py-2 rounded flex items-center gap-2 ${
+              showForm
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
+            {/* FaEye */}
+            < FaPlus />
             {showForm ? 'Ocultar Formulario' : 'Mostrar Formulario'}
           </button>
           <button
             onClick={() => setShowTable(!showTable)}
-            className={`px-4 py-2 rounded ${
-              showTable 
-                ? 'bg-green-600 text-white' 
+            className={`px-4 py-2 rounded flex items-center gap-2 ${
+              showTable
+                ? 'bg-green-600 text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
+            <FaTable />
             {showTable ? 'Ocultar Tabla' : 'Mostrar Tabla'}
           </button>
         </div>
@@ -150,7 +150,9 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
         {/* Form to add details */}
         {showForm && (
           <div className="mb-6 p-4 border border-gray-300 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Agregar Nuevo Detalle</h3>
+            <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+              <FaPlus /> Agregar Nuevo Detalle
+            </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Producto */}
@@ -181,8 +183,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
                   <input
                     type="number"
                     min="1"
-                    // step="1"
-                    step="any"  // Permite números decimales
+                    step="any"
                     value={quantity}
                     onChange={handleQuantityChange}
                     placeholder="Cantidad"
@@ -208,7 +209,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
                 {/* Monto Total */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Monto Total
+                    Monto Subtotal
                   </label>
                   <input
                     type="text"
@@ -218,7 +219,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
                         : ''
                     }
                     readOnly
-                    placeholder="Monto Total"
+                    placeholder="Monto Subtotal"
                     className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100"
                   />
                 </div>
@@ -227,9 +228,9 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="bg-blue-800 text-white py-2 px-6 rounded-lg hover:bg-blue-600"
+                  className="bg-blue-800 text-white py-2 px-6 rounded-lg hover:bg-blue-600 flex items-center gap-2"
                 >
-                  Agregar Detalle
+                  <FaPlus /> Agregar Detalle
                 </button>
               </div>
             </form>
@@ -239,7 +240,9 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
         {/* Table of details */}
         {showTable && (
           <div className="overflow-x-auto">
-            <h3 className="text-lg font-medium mb-4">Detalles del Recibo</h3>
+            <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+              <FaTable /> Detalles del Recibo
+            </h3>
             {loading ? (
               <p className="text-center text-gray-500 py-4">Cargando detalles...</p>
             ) : details.length === 0 ? (
@@ -258,7 +261,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
                       Precio Unit.
                     </th>
                     <th className="py-2 px-4 text-left text-sm text-gray-600 border border-gray-300">
-                      Monto
+                      Subtotal
                     </th>
                     <th className="py-2 px-4 text-left text-sm text-gray-600 border border-gray-300">
                       Acciones
@@ -283,9 +286,10 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
                       <td className="py-2 px-4 text-sm border border-gray-300">
                         <button
                           onClick={() => handleDeleteDetail(detail.id)}
-                          className="text-red-600 hover:text-red-800"
+                          className="text-red-600 hover:text-red-800 flex items-center gap-1"
+                          title="Eliminar"
                         >
-                          Eliminar
+                          <FaTrash /> Eliminar
                         </button>
                       </td>
                     </tr>

@@ -20,14 +20,14 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
         <div className="flex items-center space-x-1">
           <button
             onClick={() => onEdit(product)}
-            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+            className="p-2 text-blue-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
             title="Editar producto"
           >
             <HiPencil className="w-4 h-4" />
           </button>
           <button
             onClick={() => onDelete(product.id)}
-            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
+            className="p-2 text-red-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
             title="Eliminar producto"
           >
             <HiTrash className="w-4 h-4" />
@@ -58,7 +58,7 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
           <span className="text-xs text-gray-500">Disponible</span>
         </div>
-        <div className="flex items-center space-x-2">
+        {/* <div className="flex items-center space-x-2">
           <button
             onClick={() => onEdit(product)}
             className="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition-colors duration-200"
@@ -71,7 +71,7 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
           >
             Eliminar
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -21,14 +21,14 @@ const ClientItem = ({ client, onEdit, onDelete }) => {
         <div className="flex items-center space-x-1">
           <button
             onClick={() => onEdit(client)}
-            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+            className="p-2 text-blue-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
             title="Editar cliente"
           >
             <HiPencil className="w-4 h-4" />
           </button>
           <button
             onClick={() => onDelete(client.id)}
-            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
+            className="p-2 text-red-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
             title="Eliminar cliente"
           >
             <HiTrash className="w-4 h-4" />
@@ -66,18 +66,18 @@ const ClientItem = ({ client, onEdit, onDelete }) => {
             <HiDocumentText className="w-3 h-3" />
             <span>Ver Recibos</span>
           </Link>
-          <button
+          {/* <button
             onClick={() => onEdit(client)}
             className="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition-colors duration-200"
           >
             Editar
-          </button>
-          <button
+          </button> */}
+          {/* <button
             onClick={() => onDelete(client.id)}
             className="text-xs bg-red-50 text-red-600 px-3 py-1 rounded-full hover:bg-red-100 transition-colors duration-200"
           >
             Eliminar
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

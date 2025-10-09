@@ -2,30 +2,31 @@
 
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import useReceiptsId from '../hooks/useReceiptsId';  // Cambié esto de useReceipts a useReceiptsId
-import ReceiptList from '../components/receipt/ReceiptList'; // Asegúrate de tener este componente
+import useReceiptsId from '../hooks/useReceiptsId';
+import ReceiptList from '../components/receipt/ReceiptList';
 import useClients from '../hooks/useClients';
 import ReceiptModal from '../components/receipt/ReceiptModal';
 import ReceiptDetailModal from '../components/receipt/ReceiptDetailModal';
 
 const ReceiptsPageId = () => {
-  const { clientId } = useParams(); // Obtén el clientId de la URL
+  const { clientId } = useParams();
   const { receipts, loading, handleDelete, handleCreate, handleUpdate } = useReceiptsId(clientId);
-  const { clients } = useClients();  // Obtener los datos de los clientes
-  const client = clients.find(c => c.id === parseInt(clientId));  // Buscar al cliente por ID
-  const [isModalOpen, setIsModalOpen] = useState(false);  // Abrir el modal
+  const { clients } = useClients();
+  const client = clients.find(c => c.id === parseInt(clientId));
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingReceipt, setEditingReceipt] = useState(null);
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [message, setMessage] = useState(''); // Estado para el mensaje
 
   const handleEdit = (receipt) => {
     setEditingReceipt(receipt);
-    setIsModalOpen(true); // Abrir el modal para editar
+    setIsModalOpen(true);
   };
 
   const handleCancelEdit = () => {
     setEditingReceipt(null);
-    setIsModalOpen(false); // Cerrar el modal cuando se cancela
+    setIsModalOpen(false);
   };
 
   const handleSubmit = async (receiptData) => {
@@ -33,13 +34,25 @@ const ReceiptsPageId = () => {
     const updatedData = { id_client, nro, description };
 
     if (editingReceipt) {
-      await handleUpdate(editingReceipt.id, updatedData);
+      try {
+        await handleUpdate(editingReceipt.id, updatedData);
+        setMessage('Recibo actualizado exitosamente');
+      } catch (error) {
+        setMessage('Error al actualizar el recibo');
+      }
+      setTimeout(() => setMessage(''), 5000);
       setEditingReceipt(null);
       setIsModalOpen(false);
       return null;
     } else {
-      const created = await handleCreate(updatedData);
-      return created;
+      try {
+        await handleCreate(updatedData);
+        setMessage('Recibo creado exitosamente');
+      } catch (error) {
+        setMessage('Error al crear el recibo');
+      }
+      setTimeout(() => setMessage(''), 5000);
+      setIsModalOpen(false);
     }
   };
 
@@ -58,8 +71,27 @@ const ReceiptsPageId = () => {
     setIsDetailModalOpen(false);
   };
 
+  const handleDeleteReceipt = async (id) => {
+    const isConfirmed = window.confirm("¿Estás seguro de que quieres eliminar este recibo?");
+    if (isConfirmed) {
+      try {
+        await handleDelete(id);
+        setMessage('Recibo eliminado exitosamente');
+      } catch (error) {
+        setMessage('Error al eliminar el recibo');
+      }
+      setTimeout(() => setMessage(''), 5000);
+    }
+  };
+
   return (
     <div>
+      {/* Mostrar mensaje de éxito o error */}
+      {message && (
+        <div className="p-4 bg-teal-100 text-teal-800 rounded-lg shadow-md mb-4">
+          <p>{message}</p>
+        </div>
+      )}
 
       {/* Botón para abrir el modal de creación */}
       <div className='flex justify-end'>
@@ -77,12 +109,11 @@ const ReceiptsPageId = () => {
       ) : (
         <ReceiptList
           receipts={receipts}
-          onDelete={handleDelete}
+          onDelete={handleDeleteReceipt}
           onEdit={handleEdit}
           onAddDetail={handleAddDetail}
           onViewDetails={handleViewDetails}
         />
-
       )}
 
       {/* Modal de creación y edición */}

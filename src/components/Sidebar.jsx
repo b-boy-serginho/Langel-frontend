@@ -36,18 +36,18 @@ const Sidebar = () => {
       icon: HiUsers,
       description: 'Gestión de clientes'
     },
-    {
-      path: '/receipts',
-      label: 'Recibos',
-      icon: HiDocumentText,
-      description: 'Gestión de recibos'
-    },
-    {
-      path: '/details',
-      label: 'Detalles',
-      icon: HiViewList,
-      description: 'Detalles de recibos'
-    }
+    // {
+    //   path: '/receipts',
+    //   label: 'Recibos',
+    //   icon: HiDocumentText,
+    //   description: 'Gestión de recibos'
+    // },
+    // {
+    //   path: '/details',
+    //   label: 'Detalles',
+    //   icon: HiViewList,
+    //   description: 'Detalles de recibos'
+    // }
   ];
 
   const isActive = (path) => {
