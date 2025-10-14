@@ -225,6 +225,7 @@ const ReceiptsPageId = () => {
         isOpen={isDetailModalOpen}
         onClose={handleCloseDetailModal}
         receipt={selectedReceipt}
+        onDetailsChange={() => refresh(page)} // recarga recibos (actualiza total de la sección)
       />
     </div>
   );

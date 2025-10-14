@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { apiClient } from '../../api/axiosApi';
 import { createDetail, deleteDetail } from '../../api/detailApi';
 import { FaPlus, FaTable, FaTrash, FaTimes, FaEye } from "react-icons/fa";
 
-const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
+const ReceiptDetailModal = ({ isOpen, onClose, receipt, onDetailsChange }) => {
   const [products, setProducts] = useState([]);
   const [details, setDetails] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,6 +15,14 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
   const [quantity, setQuantity] = useState('');
   const [unitPrice, setUnitPrice] = useState('');
   const [amount, setAmount] = useState('');
+
+  // subtotal total para la tabla de detalles
+  const subtotalTotal = useMemo(() => {
+    return details.reduce((sum, d) => {
+      const amt = Number(d.amount ?? (Number(d.quantity ?? 0) * Number(d.unit_price ?? 0))) || 0;
+      return sum + amt;
+    }, 0);
+  }, [details]);
 
   useEffect(() => {
     if (isOpen && receipt) {
@@ -88,6 +96,8 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
       setAmount('');
 
       fetchDetails();
+      // notificar al padre para que recargue los recibos (actualiza total)
+      if (typeof onDetailsChange === 'function') onDetailsChange();
     } catch (error) {
       console.error('Error creating detail:', error);
     }
@@ -97,6 +107,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
     try {
       await deleteDetail(detailId);
       fetchDetails();
+      if (typeof onDetailsChange === 'function') onDetailsChange();
     } catch (error) {
       console.error('Error deleting detail:', error);
     }
@@ -124,11 +135,10 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
         <div className="mb-4 flex space-x-2">
           <button
             onClick={() => setShowForm(!showForm)}
-            className={`px-4 py-2 rounded flex items-center gap-2 ${
-              showForm
+            className={`px-4 py-2 rounded flex items-center gap-2 ${showForm
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+              }`}
           >
             {/* FaEye */}
             < FaPlus />
@@ -136,11 +146,10 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
           </button>
           <button
             onClick={() => setShowTable(!showTable)}
-            className={`px-4 py-2 rounded flex items-center gap-2 ${
-              showTable
+            className={`px-4 py-2 rounded flex items-center gap-2 ${showTable
                 ? 'bg-green-600 text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+              }`}
           >
             <FaTable />
             {showTable ? 'Ocultar Tabla' : 'Mostrar Tabla'}
@@ -182,7 +191,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
                   </label>
                   <input
                     type="number"
-                    min="1"
+                    min="0"
                     step="any"
                     value={quantity}
                     onChange={handleQuantityChange}
@@ -295,6 +304,20 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt }) => {
                     </tr>
                   ))}
                 </tbody>
+
+                {/* Footer con la sumatoria de subtotales */}
+                <tfoot>
+                  <tr className="bg-teal-100">
+                    <td className="py-2 px-4 text-sm border border-black-300" colSpan={3}>
+                      <span className="font-semibold text-lg">Total</span>
+                    </td>
+                    <td className="py-2 px-4 font-bold border border-black-300 text-lg">
+                      BS {Number(subtotalTotal).toFixed(2)}
+                    </td>
+                    <td className="py-2 px-4 text-sm border border-black-300" />
+                  </tr>
+                </tfoot>
+
               </table>
             )}
           </div>
