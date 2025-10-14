@@ -1,6 +1,6 @@
 // src/pages/ReceiptsPageId.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import useReceiptsId from '../hooks/useReceiptsId';
 import ReceiptList from '../components/receipt/ReceiptList';
@@ -10,7 +10,21 @@ import ReceiptDetailModal from '../components/receipt/ReceiptDetailModal';
 
 const ReceiptsPageId = () => {
   const { clientId } = useParams();
-  const { receipts, loading, handleDelete, handleCreate, handleUpdate } = useReceiptsId(clientId);
+  const {
+    receipts,
+    loading,
+    handleDelete,
+    handleCreate,
+    handleUpdate,
+    page,
+    setPage,
+    pageSize,
+    total,
+    totalSections,
+    refresh,
+    sectionTotal,      // <- nuevo
+    sectionsTotals,    // <- nuevo (array con sumas por sección)
+  } = useReceiptsId(clientId);
   const { clients } = useClients();
   const client = clients.find(c => c.id === parseInt(clientId));
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -84,6 +98,46 @@ const ReceiptsPageId = () => {
     }
   };
 
+  // Agrupa en secciones de 6, o utiliza la estructura que venga desde el backend (receipts.sections)
+  const sections = useMemo(() => {
+    if (!receipts) return [];
+
+    // Cuando el backend devuelve la página actual (receipts array paginado)
+    if (Array.isArray(receipts)) {
+      // mostramos la página actual como una sección única
+      const items = receipts;
+      const computedTotal = (typeof sectionTotal === 'number')
+        ? sectionTotal
+        : items.reduce((s, r) => s + (parseFloat(r.total) || 0), 0);
+      return [{
+        title: `Sección ${page}`,
+        receipts: items,
+        total: computedTotal
+      }];
+    }
+
+    // Si el backend devolviera múltiples secciones en el payload (no es tu caso actual)
+    if (receipts && typeof receipts === 'object' && Array.isArray(receipts.sections)) {
+      return receipts.sections.map((s, i) => {
+        const items = Array.isArray(s.receipts) ? s.receipts : [];
+        const computedTotal = (sectionsTotals && Array.isArray(sectionsTotals) && sectionsTotals[i])
+          ? Number(sectionsTotals[i].sum)
+          : items.reduce((sum, r) => sum + (parseFloat(r.total) || 0), 0);
+        return {
+          title: `Sección ${s.section ?? (i + 1)}`,
+          receipts: items,
+          total: computedTotal
+        };
+      });
+    }
+
+    return [];
+  }, [receipts, page, pageSize, sectionTotal, sectionsTotals]);
+
+  // helpers para paginación (si el backend soporta página/totalSections)
+  const canPrev = page > 1;
+  const canNext = totalSections ? page < totalSections : (total ? (page * pageSize) < total : false);
+
   return (
     <div>
       {/* Mostrar mensaje de éxito o error */}
@@ -107,13 +161,53 @@ const ReceiptsPageId = () => {
       {loading ? (
         <p>Cargando...</p>
       ) : (
-        <ReceiptList
-          receipts={receipts}
-          onDelete={handleDeleteReceipt}
-          onEdit={handleEdit}
-          onAddDetail={handleAddDetail}
-          onViewDetails={handleViewDetails}
-        />
+        <>
+          {sections.length === 0 ? (
+            <p>No hay recibos.</p>
+          ) : (
+            sections.map((sec, idx) => (
+              <section key={idx} className="mb-8">
+                <h3 className="text-xl font-medium mb-2">{sec.title}</h3>
+                <ReceiptList
+                  receipts={sec.receipts}
+                  sectionTotal={sec.total ?? 0} // <- pasamos el total de la sección
+                  onDelete={handleDeleteReceipt}
+                  onEdit={handleEdit}
+                  onAddDetail={handleAddDetail}
+                  onViewDetails={handleViewDetails}
+                />
+              </section>
+            ))
+          )}
+
+          {/* Controles de paginación */}
+          <div className="flex items-center justify-between mt-4">
+            <button
+              className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50"
+              onClick={() => setPage(Math.max(1, page - 1))}
+              disabled={!canPrev}
+            >
+              Anterior
+            </button>
+
+            {/* en el bloque de paginación muestra el total de la sección */}
+            <div className="text-sm text-gray-700">
+              {totalSections
+                ? `Sección ${page} de ${totalSections} • Total sección: ${Number(sectionTotal ?? sectionsTotals?.[page-1]?.sum ?? 0).toFixed(2)}`
+                : total
+                  ? `Sección ${page} • ${Math.min(page * pageSize, total)}/${total} • Total sección: ${Number(sectionTotal ?? 0).toFixed(2)}`
+                  : `Sección ${page} • Total sección: ${Number(sectionTotal ?? 0).toFixed(2)}`}
+            </div>
+
+            <button
+              className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50"
+              onClick={() => setPage(page + 1)}
+              disabled={!canNext}
+            >
+              Siguiente
+            </button>
+          </div>
+        </>
       )}
 
       {/* Modal de creación y edición */}

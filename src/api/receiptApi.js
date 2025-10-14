@@ -42,9 +42,11 @@ export const deleteReceipt = async (id) => {
 };
 
 // Nueva función para obtener los recibos de un cliente específico
-export const getReceiptsByClient = async (clientId) => {
+export const getReceiptsByClient = async (clientId, page = 1, pageSize = 6) => {
   try {
-    const { data } = await apiClient.get(`/receipts/client/${clientId}`);
+    const { data } = await apiClient.get(`/receipts/client/${clientId}`, {
+      params: { page, pageSize },
+    });
     return data;
   } catch (error) {
     console.error('Error fetching receipts for client:', error);

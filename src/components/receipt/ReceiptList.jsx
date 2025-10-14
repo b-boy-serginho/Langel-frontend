@@ -1,6 +1,8 @@
 import ReceiptItem from './ReceiptItem';
 
-const ReceiptList = ({ receipts, onEdit, onDelete, onAddDetail, onViewDetails }) => {
+const ReceiptList = ({ receipts, onEdit, onDelete, onAddDetail, onViewDetails, sectionTotal = 0 }) => {
+  const formatTotal = (v) => (Number(v) || 0).toFixed(2);
+
   return (
     <div className="overflow-x-auto mt-4 bg-white rounded-lg shadow-md p-6">
       {receipts.length === 0 ? (
@@ -9,13 +11,8 @@ const ReceiptList = ({ receipts, onEdit, onDelete, onAddDetail, onViewDetails })
         <table className="min-w-full bg-white border border-gray-300">
           <thead className="bg-gray-200">
             <tr>
-               {/* <th className="py-2 px-4 text-left text-sm text-gray-800 border border-gray-300">Recibo Nro.</th> */}
-              {/* <th className="py-2 px-4 text-left text-sm text-gray-800 border border-gray-300">Cliente</th>              */}
               <th className="py-2 px-4 text-left text-sm text-gray-800 border border-gray-300">Total</th>
-              {/* <th className="py-2 px-4 text-left text-sm text-gray-800 border border-gray-300">Nro</th> */}
-              {/* <th className="py-2 px-4 text-left text-sm text-gray-800 border border-gray-300">Descripción</th> */}
               <th className="py-2 px-4 text-left text-sm text-gray-800 border border-gray-300">Día</th>
-              {/* <th className="py-2 px-4 text-left text-sm text-gray-800 border border-gray-300">Hora</th> */}
               <th className="py-2 px-4 text-left text-sm text-gray-800 border border-gray-300">Fecha</th>
               <th className="py-2 px-4 text-left text-sm text-gray-800 border border-gray-300">Acciones</th>
             </tr>
@@ -32,6 +29,15 @@ const ReceiptList = ({ receipts, onEdit, onDelete, onAddDetail, onViewDetails })
               />
             ))}
           </tbody>
+
+          {/* Footer con la sumatoria de la sección */}
+          <tfoot>
+            <tr className="bg-gray-50">
+              <td className="py-2 px-4 text-center font-bold border border-gray-300" colSpan={4}>
+                Total sección: {formatTotal(sectionTotal)}
+              </td>
+            </tr>
+          </tfoot>
         </table>
       )}
     </div>
