@@ -31,8 +31,8 @@ const Navbar = () => {
           <div className="flex items-center space-x-6">
             {/* Breadcrumb */}
             <div className="flex items-center space-x-2 text-sm">
-              <span className="font-semibold text-gray-700 bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">Dashboard</span>
-              <span className="text-gray-400">/</span>
+              {/* <span className="font-semibold text-gray-700 bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">Dashboard</span> */}
+              {/* <span className="text-gray-400">/</span> */}
               <span className="text-gray-500 font-medium">Panel Principal</span>
             </div>
           </div>
@@ -40,7 +40,7 @@ const Navbar = () => {
           {/* Lado derecho - Acciones */}
           <div className="flex items-center space-x-4">
             {/* Barra de búsqueda */}
-            <div className="relative hidden md:block group">
+            {/* <div className="relative hidden md:block group">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <HiSearch className="h-5 w-5 text-gray-400 group-focus-within:text-teal-500 transition-colors duration-200" />
               </div>
@@ -49,10 +49,10 @@ const Navbar = () => {
                 placeholder="Buscar..."
                 className="block w-64 pl-10 pr-3 py-2.5 bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-xl text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500/50 focus:bg-white/80 transition-all duration-300 shadow-sm hover:shadow-md"
               />
-            </div>
+            </div> */}
 
             {/* Botón de modo oscuro */}
-            <button
+            {/* <button
               onClick={toggleDarkMode}
               className="group relative p-2.5 text-gray-500 hover:text-gray-700 hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-md"
               aria-label="Toggle dark mode"
@@ -64,13 +64,13 @@ const Navbar = () => {
                   <HiMoon className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
                 )}
               </div>
-            </button>
+            </button> */}
 
             {/* Notificaciones */}
-            <button className="group relative p-2.5 text-gray-500 hover:text-gray-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-md">
+            {/* <button className="group relative p-2.5 text-gray-500 hover:text-gray-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-md">
               <HiBell className="h-5 w-5 group-hover:animate-bounce" />
               <span className="absolute top-1 right-1 h-2.5 w-2.5 bg-gradient-to-r from-red-500 to-pink-500 rounded-full shadow-sm animate-pulse"></span>
-            </button>
+            </button> */}
 
             {/* Menú de perfil */}
             <div className="relative">
