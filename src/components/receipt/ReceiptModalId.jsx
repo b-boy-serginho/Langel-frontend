@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { apiClient } from '../..api/axiosApi';
 
 const ReceiptModalId = ({ isOpen, onClose, onSubmit, initialData }) => {
     const [clients, setClients] = useState([]);
@@ -8,7 +9,9 @@ const ReceiptModalId = ({ isOpen, onClose, onSubmit, initialData }) => {
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/clients');
+                // const response = await axios.get('http://127.0.0.1:8000/api/clients');
+                // const response = await axios.get('http:// 192.168.100.25:8000/api/clients');
+                const response = await apiClient.get('/clients'); // ← usando apiClient
                 setClients(response.data);
             } catch (error) {
                 console.error('Error fetching clients:', error);
