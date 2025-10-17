@@ -73,9 +73,9 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt, onDetailsChange }) => {
   };
 
   const handleQuantityChange = (e) => {
-    const newQuantity = parseFloat(e.target.value);
-    setQuantity(newQuantity);
-    setAmount(newQuantity * Number(unitPrice || 0));
+    const value = e.target.value;
+    setQuantity(value);
+    setAmount(Number(value) * Number(unitPrice || 0));
   };
 
   const handleSubmit = async (e) => {
@@ -321,7 +321,7 @@ const ReceiptDetailModal = ({ isOpen, onClose, receipt, onDetailsChange }) => {
               </table>
             )}
           </div>
-        )}
+        )}    
       </div>
     </div>
   );
